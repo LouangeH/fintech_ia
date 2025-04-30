@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simulation de Transaction</title>
+</head>
+<body>
+    <h1>Test de Prédiction de Fraude</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label>Montant:</label> <input type="number" name="amount"><br>
+        <label>Type (0=Retrait, 1=Dépôt):</label> <input type="number" name="type_encoded"><br>
+        <label>Lieu:</label> <input type="number" name="location_encoded"><br>
+        <label>Heure (0-23):</label> <input type="number" name="time_encoded"><br>
+        <label>Canal (0=Agence, 1=Mobile):</label> <input type="number" name="channel_encoded"><br>
+        <label>Solde Avant:</label> <input type="number" name="balance_before"><br>
+        <label>Solde Après:</label> <input type="number" name="balance_after"><br>
+        <label>Week-end (0=Non, 1=Oui):</label> <input type="number" name="is_weekend"><br>
+        <label>Âge Client (0=Jeune, 1=Adulte, 2=Senior):</label> <input type="number" name="client_age_group"><br>
+        <button type="submit">Tester</button>
+    </form>
+
+    {% if result %}
+    <h2>Résultat :</h2>
+    <p><strong>Fraude :</strong> {{ result.fraud }}</p>
+    <p><strong>Confiance :</strong> {{ result.confidence }}</p>
+    {% endif %}
+</body>
+</html>

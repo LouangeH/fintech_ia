@@ -46,7 +46,7 @@ from fraud_detection.serializers import TransactionInputSerializer
 from fraud_detection.models import PredictionLog
 
 # Charger le modèle
-MODEL_PATH = os.path.join("ai_models", "fraud_model_FBu.pkl")
+MODEL_PATH = os.path.join("ai_models", "fraud_model_xgb.pkl")
 model = joblib.load(MODEL_PATH)
 
 @api_view(['POST'])
