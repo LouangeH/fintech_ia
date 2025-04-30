@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simulation de transaction Redis</title>
+</head>
+<body>
+    <h1>Envoyer une transaction à Redis</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label>User ID:</label> <input type="number" name="user_id"><br>
+        <label>Montant:</label> <input type="number" name="amount"><br>
+        <label>Type (0=retrait, 1=dépôt):</label> <input type="number" name="type_encoded"><br>
+        <label>Lieu:</label> <input type="number" name="location_encoded"><br>
+        <label>Heure (0-23):</label> <input type="number" name="time_encoded"><br>
+        <label>Canal (0=agence, 1=mobile):</label> <input type="number" name="channel_encoded"><br>
+        <label>Solde avant:</label> <input type="number" name="balance_before"><br>
+        <label>Solde après:</label> <input type="number" name="balance_after"><br>
+        <label>Week-end (0=non, 1=oui):</label> <input type="number" name="is_weekend"><br>
+        <label>Tranche d’âge (0=jeune, 1=adulte, 2=senior):</label> <input type="number" name="client_age_group"><br>
+        <button type="submit">Envoyer</button>
+    </form>
+
+    {% if success %}
+        <p style="color:green;">✅ Transaction envoyée à Redis avec succès !</p>
+    {% endif %}
+</body>
+</html>

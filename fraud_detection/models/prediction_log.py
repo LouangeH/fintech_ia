@@ -10,6 +10,7 @@ class PredictionLog(models.Model):
     balance_after =  models.FloatField()
     is_weekend = models.IntegerField()
     client_age_group = models.IntegerField()
+    user_id = models.IntegerField()  # ou email, ou numéro client
     
     predicted_fraud = models.BooleanField()
     confidence = models.FloatField()

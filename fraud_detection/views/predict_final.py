@@ -44,6 +44,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from fraud_detection.serializers import TransactionInputSerializer
 from fraud_detection.models import PredictionLog
+import shap
 
 # Charger le modèle
 MODEL_PATH = os.path.join("ai_models", "fraud_model_xgb.pkl")
@@ -75,6 +76,15 @@ def prediction_fraud(request):
         # REGLE : Heure > 17h
         if data["time_encoded"] > 17:
             alerts.append("Transaction effectuée après la fermeture des banques")
+        
+        # comportement utilisateur
+        user_logs = PredictionLog.objects.filter(user_id="user_id")
+        amounts = [log.amount for log in user_logs]
+        if len(amounts) >= 5:
+            avg = np.mean(amounts)
+            std = np.std(amounts)
+            if std > 0 and abs(data["amount"] - avg) > 3 * std:
+                alerts.append("Montant inhabituel comparé à l’historique de l’utilisateur")
 
         # Faire prédiction
         prediction = model.predict(features)[0]
@@ -90,11 +100,16 @@ def prediction_fraud(request):
             confidence=confidence
         )
 
+        explainer = shap.TreeExplainer(model)  # une seule fois après chargement
+        shap_values = explainer.shap_values(features)
+        explanation = dict(zip(serializer.fields, shap_values[0].tolist()))
+
         # Répondre à l’utilisateur
         return Response({
             "fraud": bool(prediction),
             "confidence": round(confidence, 2),
-            "alerts": alerts
+            "alerts": alerts,
+            "explanation": explanation,
         })
     
     return Response(serializer.errors, status=400)
