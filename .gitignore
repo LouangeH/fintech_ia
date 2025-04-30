@@ -1,0 +1,32 @@
+# Environnement virtuel
+venv/
+env/
+
+# Fichiers Python compilés
+__pycache__/
+*.py[cod]
+
+# Fichiers de log
+*.log
+
+# Fichiers temporaires
+*.sqlite3
+*.tmp
+*.swp
+
+# Paramètres de l'IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+
+# Secrets locaux
+.env
+.env.*
+
+# Dossier de migration (facultatif)
+**/migrations/__pycache__/

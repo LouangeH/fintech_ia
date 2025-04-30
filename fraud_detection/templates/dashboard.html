@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard des Fraudes</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Analyse Visuelle des Fraudes</h1>
+
+    <canvas id="fraudesJour" width="400" height="150"></canvas>
+    <canvas id="montantsFraude" width="400" height="150"></canvas>
+    <canvas id="heatmapHeures" width="400" height="150"></canvas>
+
+    <script>
+        const jours = {{ days|safe }};
+        const nbFraudes = {{ counts|safe }};
+        const montants = {{ amounts|safe }};
+        const heures = {{ hours|safe }};
+        const nbParHeure = {{ hour_counts|safe }};
+
+        // 1. Fraudes par jour
+        new Chart(document.getElementById("fraudesJour"), {
+            type: 'bar',
+            data: {
+                labels: jours,
+                datasets: [{
+                    label: 'Fraudes par jour',
+                    data: nbFraudes,
+                    backgroundColor: 'rgba(255, 99, 132, 0.5)'
+                }]
+            }
+        });
+
+        // 2. Montants des fraudes
+        new Chart(document.getElementById("montantsFraude"), {
+            type: 'bar',
+            data: {
+                labels: montants,
+                datasets: [{
+                    label: 'Montants frauduleux',
+                    data: montants,
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)'
+                }]
+            }
+        });
+
+        // 3. Heatmap par heure
+        new Chart(document.getElementById("heatmapHeures"), {
+            type: 'line',
+            data: {
+                labels: heures,
+                datasets: [{
+                    label: 'Heures des fraudes',
+                    data: nbParHeure,
+                    backgroundColor: 'rgba(255, 206, 86, 0.5)'
+                }]
+            }
+        });
+    </script>
+</body>
+</html>
